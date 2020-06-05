@@ -96,7 +96,13 @@ resource "aws_ecs_task_definition" "agreements" {
               "awslogs-region": "eu-west-2",
               "awslogs-stream-prefix": "fargate-agreements"
           }
-        }
+        },
+        "environment" : [
+          {
+          "name": "ENVIRONMENT",
+          "value": "${var.environment}"
+          }
+        ]
       }
     ]
 DEFINITION
