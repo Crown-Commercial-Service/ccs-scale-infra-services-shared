@@ -41,3 +41,9 @@ resource "aws_cloudwatch_log_group" "api_gw_execution" {
   name              = "API-Gateway-Execution-Logs_${var.scale_rest_api_id}/${lower(var.environment)}-shared"
   retention_in_days = 7
 }
+
+resource "aws_ssm_parameter" "api_invoke_url" {
+  name  = "${lower(var.environment)}-agreements-service-root-url"
+  type  = "String"
+  value = aws_api_gateway_stage.shared.invoke_url
+}
