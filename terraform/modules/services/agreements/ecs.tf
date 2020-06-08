@@ -77,7 +77,7 @@ resource "aws_ecs_task_definition" "agreements" {
     [
       {
         "name": "SCALE-EU2-${upper(var.environment)}-APP-ECS_TaskDef_Agreements",
-        "image": "${module.globals.env_accounts["mgmt"]}.dkr.ecr.eu-west-2.amazonaws.com/scale/agreements-service:947c9b5-candidate",
+        "image": "${module.globals.env_accounts["mgmt"]}.dkr.ecr.eu-west-2.amazonaws.com/scale/agreements-service:${var.ecr_image_id_agreements}",
         "requires_compatibilities": "FARGATE",
         "cpu": 256,
         "memory": 512,

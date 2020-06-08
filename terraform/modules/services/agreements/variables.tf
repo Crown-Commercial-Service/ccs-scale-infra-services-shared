@@ -49,3 +49,7 @@ variable "lb_private_dns" {
 variable "environment" {
   type = string
 }
+
+variable "ecr_image_id_agreements" {
+  type = string
+}
