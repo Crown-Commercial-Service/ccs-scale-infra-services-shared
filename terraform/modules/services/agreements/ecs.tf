@@ -99,8 +99,16 @@ resource "aws_ecs_task_definition" "agreements" {
         },
         "environment" : [
           {
-          "name": "ENVIRONMENT",
-          "value": "${var.environment}"
+          "name": "spring.datasource.username",
+          "value": "${var.agreements_db_username}"
+          },
+          {
+          "name": "spring.datasource.password",
+          "value": "${var.agreements_db_password}"
+          },
+          {
+          "name": "spring.datasource.url",
+          "value": "jdbc:postgresql://${var.agreements_db_endpoint}:5432/agreements"
           }
         ]
       }

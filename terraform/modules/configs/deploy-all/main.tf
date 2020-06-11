@@ -40,6 +40,18 @@ data "aws_ssm_parameter" "lb_private_dns" {
   name = "${lower(var.environment)}-lb-private-dns"
 }
 
+data "aws_ssm_parameter" "agreements_db_endpoint" {
+  name = "${lower(var.environment)}-agreements-db-endpoint"
+}
+
+data "aws_ssm_parameter" "agreements_db_username" {
+  name = "${lower(var.environment)}-agreements-db-master-username"
+}
+
+data "aws_ssm_parameter" "agreements_db_password" {
+  name = "${lower(var.environment)}-agreements-db-master-password"
+}
+
 module "ecs" {
   source      = "../../ecs"
   vpc_id      = data.aws_ssm_parameter.vpc_id.value
@@ -67,6 +79,9 @@ module "agreements" {
   ecs_task_execution_arn       = module.ecs.ecs_task_execution_arn
   ecs_cluster_id               = module.ecs.ecs_cluster_id
   ecr_image_id_agreements      = var.ecr_image_id_agreements
+  agreements_db_endpoint       = data.aws_ssm_parameter.agreements_db_endpoint.value
+  agreements_db_username       = data.aws_ssm_parameter.agreements_db_username.value
+  agreements_db_password       = data.aws_ssm_parameter.agreements_db_password.value
 }
 
 module "api-deployment" {

@@ -53,3 +53,15 @@ variable "environment" {
 variable "ecr_image_id_agreements" {
   type = string
 }
+
+variable "agreements_db_endpoint" {
+  type = string
+}
+
+variable "agreements_db_username" {
+  type = string
+}
+
+variable "agreements_db_password" {
+  type = string
+}

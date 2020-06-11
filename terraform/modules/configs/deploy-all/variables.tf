@@ -8,5 +8,5 @@ variable "environment" {
 
 variable "ecr_image_id_agreements" {
   type = string
-  default = "7742875-candidate"
+  default = "7256128-snapshot"
 }
