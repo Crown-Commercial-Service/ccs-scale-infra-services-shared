@@ -66,6 +66,8 @@ module "agreements" {
   ecs_security_group_id        = module.ecs.ecs_security_group_id
   ecs_task_execution_arn       = module.ecs.ecs_task_execution_arn
   ecs_cluster_id               = module.ecs.ecs_cluster_id
+  agreements_cpu               = var.agreements_cpu
+  agreements_memory            = var.agreements_memory
 }
 
 module "api-deployment" {
