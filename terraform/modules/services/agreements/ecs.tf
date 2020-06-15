@@ -69,8 +69,8 @@ resource "aws_ecs_task_definition" "agreements" {
   family                   = "agreements"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 512
-  memory                   = 1024
+  cpu                      = var.agreements_cpu
+  memory                   = var.agreements_memory
   execution_role_arn       = var.ecs_task_execution_arn
 
   container_definitions = <<DEFINITION
@@ -79,8 +79,8 @@ resource "aws_ecs_task_definition" "agreements" {
         "name": "SCALE-EU2-${upper(var.environment)}-APP-ECS_TaskDef_Agreements",
         "image": "${module.globals.env_accounts["mgmt"]}.dkr.ecr.eu-west-2.amazonaws.com/scale/agreements-service:947c9b5-candidate",
         "requires_compatibilities": "FARGATE",
-        "cpu": 256,
-        "memory": 512,
+        "cpu": ${var.agreements_cpu},
+        "memory": ${var.agreements_memory},
         "essential": true,
         "networkMode": "awsvpc",
         "portMappings": [
