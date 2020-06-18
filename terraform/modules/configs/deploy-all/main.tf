@@ -40,6 +40,18 @@ data "aws_ssm_parameter" "lb_private_dns" {
   name = "${lower(var.environment)}-lb-private-dns"
 }
 
+data "aws_ssm_parameter" "agreements_db_endpoint" {
+  name = "${lower(var.environment)}-agreements-db-endpoint"
+}
+
+data "aws_ssm_parameter" "agreements_db_username" {
+  name = "${lower(var.environment)}-agreements-db-master-username"
+}
+
+data "aws_ssm_parameter" "agreements_db_password" {
+  name = "${lower(var.environment)}-agreements-db-master-password"
+}
+
 module "ecs" {
   source      = "../../ecs"
   vpc_id      = data.aws_ssm_parameter.vpc_id.value
@@ -66,6 +78,9 @@ module "agreements" {
   ecs_security_group_id        = module.ecs.ecs_security_group_id
   ecs_task_execution_arn       = module.ecs.ecs_task_execution_arn
   ecs_cluster_id               = module.ecs.ecs_cluster_id
+  agreements_db_endpoint       = data.aws_ssm_parameter.agreements_db_endpoint.value
+  agreements_db_username       = data.aws_ssm_parameter.agreements_db_username.value
+  agreements_db_password       = data.aws_ssm_parameter.agreements_db_password.value
   agreements_cpu               = var.agreements_cpu
   agreements_memory            = var.agreements_memory
 }
