@@ -65,12 +65,6 @@ resource "aws_api_gateway_usage_plan" "default" {
     stage  = aws_api_gateway_stage.shared.stage_name
   }
 
-  #quota_settings {
-  #  limit  = 20
-  #  offset = 2
-  #  period = "WEEK"
-  #}
-
   throttle_settings {
     rate_limit  = var.api_rate_limit
     burst_limit = var.api_burst_limit
