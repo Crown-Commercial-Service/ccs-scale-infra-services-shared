@@ -74,32 +74,42 @@ resource "aws_api_gateway_usage_plan" "default" {
 #########################################################
 # API Keys
 #########################################################
-resource "aws_api_gateway_api_key" "buyer_ui" {
-  name = "Buyer UI API Key"
+resource "aws_api_gateway_api_key" "fat_buyer_ui" {
+  name = "FaT Buyer UI API Key"
 }
 
-resource "aws_api_gateway_api_key" "testers" {
-  name = "Testers API Key"
+resource "aws_api_gateway_api_key" "fat_testers" {
+  name = "FaT Testers API Key"
 }
 
-resource "aws_api_gateway_api_key" "developers" {
-  name = "Developers API Key"
+resource "aws_api_gateway_api_key" "fat_developers" {
+  name = "FaT Developers API Key"
 }
 
-resource "aws_api_gateway_usage_plan_key" "buyer_ui" {
-  key_id        = aws_api_gateway_api_key.buyer_ui.id
+resource "aws_api_gateway_api_key" "bat_developers" {
+  name = "BaT Developers API Key"
+}
+
+resource "aws_api_gateway_usage_plan_key" "fat_buyer_ui" {
+  key_id        = aws_api_gateway_api_key.fat_buyer_ui.id
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.default.id
 }
 
-resource "aws_api_gateway_usage_plan_key" "testers" {
-  key_id        = aws_api_gateway_api_key.testers.id
+resource "aws_api_gateway_usage_plan_key" "fat_testers" {
+  key_id        = aws_api_gateway_api_key.fat_testers.id
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.default.id
 }
 
-resource "aws_api_gateway_usage_plan_key" "developers" {
-  key_id        = aws_api_gateway_api_key.developers.id
+resource "aws_api_gateway_usage_plan_key" "fat_developers" {
+  key_id        = aws_api_gateway_api_key.fat_developers.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.default.id
+}
+
+resource "aws_api_gateway_usage_plan_key" "bat_developers" {
+  key_id        = aws_api_gateway_api_key.bat_developers.id
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.default.id
 }
