@@ -89,6 +89,8 @@ module "api-deployment" {
   source            = "../../services/api-deployment"
   environment       = var.environment
   scale_rest_api_id = module.api.scale_rest_api_id
+  api_rate_limit    = var.api_rate_limit
+  api_burst_limit   = var.api_burst_limit
 
   // Simulate depends_on:
   agreements_api_gateway_integration = module.agreements.agreements_api_gateway_integration
