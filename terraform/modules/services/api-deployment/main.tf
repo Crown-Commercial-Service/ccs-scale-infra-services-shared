@@ -113,3 +113,9 @@ resource "aws_api_gateway_usage_plan_key" "bat_developers" {
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.default.id
 }
+
+resource "aws_ssm_parameter" "fat_buyer_ui_api_key" {
+  name  = "${lower(var.environment)}-fat-buyer-ui-shared-api-key"
+  type  = "String"
+  value = aws_api_gateway_api_key.fat_buyer_ui.value
+}
