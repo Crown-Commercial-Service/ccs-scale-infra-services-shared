@@ -52,10 +52,15 @@ data "aws_ssm_parameter" "agreements_db_password" {
   name = "${lower(var.environment)}-agreements-db-master-password"
 }
 
+data "aws_ssm_parameter" "cidr_blocks_app" {
+  name = "${lower(var.environment)}-cidr-blocks-app"
+}
+
 module "ecs" {
-  source      = "../../ecs"
-  vpc_id      = data.aws_ssm_parameter.vpc_id.value
-  environment = var.environment
+  source          = "../../ecs"
+  vpc_id          = data.aws_ssm_parameter.vpc_id.value
+  environment     = var.environment
+  cidr_blocks_app = split(",", data.aws_ssm_parameter.cidr_blocks_app.value)
 }
 
 module "api" {
