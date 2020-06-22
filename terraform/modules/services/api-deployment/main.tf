@@ -75,19 +75,19 @@ resource "aws_api_gateway_usage_plan" "default" {
 # API Keys
 #########################################################
 resource "aws_api_gateway_api_key" "fat_buyer_ui" {
-  name = "FaT Buyer UI API Key"
+  name = "FaT Buyer UI API Key (Shared)"
 }
 
 resource "aws_api_gateway_api_key" "fat_testers" {
-  name = "FaT Testers API Key"
+  name = "FaT Testers API Key (Shared)"
 }
 
 resource "aws_api_gateway_api_key" "fat_developers" {
-  name = "FaT Developers API Key"
+  name = "FaT Developers API Key (Shared)"
 }
 
 resource "aws_api_gateway_api_key" "bat_developers" {
-  name = "BaT Developers API Key"
+  name = "BaT Developers API Key (Shared)"
 }
 
 resource "aws_api_gateway_usage_plan_key" "fat_buyer_ui" {
@@ -115,7 +115,8 @@ resource "aws_api_gateway_usage_plan_key" "bat_developers" {
 }
 
 resource "aws_ssm_parameter" "fat_buyer_ui_api_key" {
-  name  = "${lower(var.environment)}-fat-buyer-ui-shared-api-key"
-  type  = "String"
-  value = aws_api_gateway_api_key.fat_buyer_ui.value
+  name        = "${lower(var.environment)}-fat-buyer-ui-shared-api-key"
+  description = "API Key for FaT Buyer UI component to use to access the Shared API (Agreements Service)"
+  type        = "String"
+  value       = aws_api_gateway_api_key.fat_buyer_ui.value
 }
