@@ -32,17 +32,17 @@ resource "aws_security_group" "allow_http" {
   }
 
   ingress {
-    from_port = 9010
-    to_port   = 9010
-    protocol  = "tcp"
+    from_port   = 9010
+    to_port     = 9010
+    protocol    = "tcp"
     cidr_blocks = [var.cidr_block_vpc]
   }
 
   egress {
-    from_port = 0
-    to_port   = 65535
+    from_port   = 0
+    to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.cidr_blocks_app
   }
 
   tags = {
