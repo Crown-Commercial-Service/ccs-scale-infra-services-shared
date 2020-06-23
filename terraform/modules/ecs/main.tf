@@ -21,7 +21,6 @@ resource "aws_ecs_cluster" "scale" {
 #########################################################
 # ECS Security Group and Policy
 #########################################################
-#TODO: Security Group is very open - needs tightening
 resource "aws_security_group" "allow_http" {
   name                   = "allow_http_ecs_shared"
   description            = "Allow HTTP access to ECS Services"
@@ -33,20 +32,16 @@ resource "aws_security_group" "allow_http" {
   }
 
   ingress {
-    from_port = 0
-    to_port   = 9010
-    protocol  = "tcp"
-    # Please restrict your ingress to only necessary IPs and ports.
-    # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 9010
+    to_port     = 9010
+    protocol    = "tcp"
+    cidr_blocks = [var.cidr_block_vpc]
   }
 
   egress {
-    from_port = 0
-    to_port   = 65535
-    protocol  = "tcp"
-    # Please restrict your ingress to only necessary IPs and ports.
-    # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
