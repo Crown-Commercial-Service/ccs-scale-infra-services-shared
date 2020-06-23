@@ -9,3 +9,7 @@ variable "environment" {
 variable "cidr_blocks_app" {
   type = list(string)
 }
+
+variable "cidr_block_vpc" {
+  type = string
+}
