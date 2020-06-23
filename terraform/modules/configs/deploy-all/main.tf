@@ -56,10 +56,15 @@ data "aws_ssm_parameter" "cidr_blocks_app" {
   name = "${lower(var.environment)}-cidr-blocks-app"
 }
 
+data "aws_ssm_parameter" "cidr_block_vpc" {
+  name = "${lower(var.environment)}-cidr-block-vpc"
+}
+
 module "ecs" {
   source          = "../../ecs"
   vpc_id          = data.aws_ssm_parameter.vpc_id.value
   environment     = var.environment
+  cidr_block_vpc  = data.aws_ssm_parameter.cidr_block_vpc.value
   cidr_blocks_app = split(",", data.aws_ssm_parameter.cidr_blocks_app.value)
 }
 

@@ -35,7 +35,7 @@ resource "aws_security_group" "allow_http" {
     from_port = 9010
     to_port   = 9010
     protocol  = "tcp"
-    cidr_blocks = ["192.168.0.0/16"]
+    cidr_blocks = [var.cidr_block_vpc]
   }
 
   egress {
