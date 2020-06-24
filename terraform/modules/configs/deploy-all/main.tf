@@ -56,16 +56,23 @@ data "aws_ssm_parameter" "cidr_block_vpc" {
   name = "${lower(var.environment)}-cidr-block-vpc"
 }
 
+data "aws_ssm_parameter" "scale_rest_api_id" {
+  name  = "${lower(var.environment)}-scale-rest-api-id"
+}
+
+data "aws_ssm_parameter" "scale_rest_execution_arn" {
+  name  = "${lower(var.environment)}-scale-rest-execution-arn"
+}
+
+data "aws_ssm_parameter" "scale_rest_parent_resource_id" {
+  name  = "${lower(var.environment)}-scale-rest-parent-resource-id"
+}
+
 module "ecs" {
   source          = "../../ecs"
   vpc_id          = data.aws_ssm_parameter.vpc_id.value
   environment     = var.environment
   cidr_block_vpc  = data.aws_ssm_parameter.cidr_block_vpc.value
-}
-
-module "api" {
-  source      = "../../api"
-  environment = var.environment
 }
 
 module "agreements" {
@@ -77,9 +84,9 @@ module "agreements" {
   vpc_link_id                  = data.aws_ssm_parameter.vpc_link_id.value
   lb_private_arn               = data.aws_ssm_parameter.lb_private_arn.value
   lb_private_dns               = data.aws_ssm_parameter.lb_private_dns.value
-  scale_rest_api_id            = module.api.scale_rest_api_id
-  scale_rest_api_execution_arn = module.api.scale_rest_api_execution_arn
-  parent_resource_id           = module.api.parent_resource_id
+  scale_rest_api_id            = data.aws_ssm_parameter.scale_rest_api_id.value
+  scale_rest_api_execution_arn = data.aws_ssm_parameter.scale_rest_execution_arn.value
+  parent_resource_id           = data.aws_ssm_parameter.scale_rest_parent_resource_id.value
   ecs_security_group_id        = module.ecs.ecs_security_group_id
   ecs_task_execution_arn       = module.ecs.ecs_task_execution_arn
   ecs_cluster_id               = module.ecs.ecs_cluster_id
@@ -93,7 +100,7 @@ module "agreements" {
 module "api-deployment" {
   source            = "../../services/api-deployment"
   environment       = var.environment
-  scale_rest_api_id = module.api.scale_rest_api_id
+  scale_rest_api_id = data.aws_ssm_parameter.scale_rest_api_id.value
 
   // Simulate depends_on:
   agreements_api_gateway_integration = module.agreements.agreements_api_gateway_integration

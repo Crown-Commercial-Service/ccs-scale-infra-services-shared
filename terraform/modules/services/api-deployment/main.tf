@@ -1,7 +1,8 @@
-variable "scale_rest_api_id" {
-  type = string
-}
-
+#########################################################
+# API Deployment: FaT
+#
+# Deploy updated API Gateway.
+#########################################################
 resource "aws_api_gateway_deployment" "shared" {
   description = "Deployed at ${timestamp()}"
   rest_api_id = var.scale_rest_api_id
@@ -10,6 +11,11 @@ resource "aws_api_gateway_deployment" "shared" {
     var.agreements_api_gateway_integration
   ]
 
+  # This will force a deployment of the updated API
+  variables = {
+    deployed_at = "${timestamp()}"
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -17,9 +23,6 @@ resource "aws_api_gateway_deployment" "shared" {
 
 resource "aws_api_gateway_stage" "shared" {
   description = "Deployed at ${timestamp()}"
-  depends_on = [
-    aws_cloudwatch_log_group.api_gw_execution
-  ]
 
   stage_name    = lower(var.environment)
   rest_api_id   = var.scale_rest_api_id
@@ -35,11 +38,6 @@ resource "aws_api_gateway_method_settings" "scale" {
     data_trace_enabled = true
     metrics_enabled    = true
   }
-}
-
-resource "aws_cloudwatch_log_group" "api_gw_execution" {
-  name              = "API-Gateway-Execution-Logs_${var.scale_rest_api_id}/${lower(var.environment)}-shared"
-  retention_in_days = 7
 }
 
 resource "aws_ssm_parameter" "api_invoke_url" {
