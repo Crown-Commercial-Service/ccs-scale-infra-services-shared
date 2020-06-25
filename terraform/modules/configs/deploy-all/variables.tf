@@ -15,3 +15,13 @@ variable "agreements_memory" {
   type    = number
   default = 1024
 }
+
+variable "api_rate_limit" {
+  type    = number
+  default = 10000
+}
+
+variable "api_burst_limit" {
+  type    = number
+  default = 5000
+}
