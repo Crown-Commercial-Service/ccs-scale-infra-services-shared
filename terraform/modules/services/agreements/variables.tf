@@ -49,3 +49,23 @@ variable "lb_private_dns" {
 variable "environment" {
   type = string
 }
+
+variable "agreements_db_endpoint" {
+  type = string
+}
+
+variable "agreements_db_username" {
+  type = string
+}
+
+variable "agreements_db_password" {
+  type = string
+}
+
+variable "agreements_cpu" {
+  type = number
+}
+
+variable "agreements_memory" {
+  type = number
+}

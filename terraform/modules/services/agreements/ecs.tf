@@ -69,18 +69,18 @@ resource "aws_ecs_task_definition" "agreements" {
   family                   = "agreements"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 512
-  memory                   = 1024
+  cpu                      = var.agreements_cpu
+  memory                   = var.agreements_memory
   execution_role_arn       = var.ecs_task_execution_arn
 
   container_definitions = <<DEFINITION
     [
       {
         "name": "SCALE-EU2-${upper(var.environment)}-APP-ECS_TaskDef_Agreements",
-        "image": "${module.globals.env_accounts["mgmt"]}.dkr.ecr.eu-west-2.amazonaws.com/scale/agreements-service:947c9b5-candidate",
+        "image": "${module.globals.env_accounts["mgmt"]}.dkr.ecr.eu-west-2.amazonaws.com/scale/agreements-service:34c285a-candidate",
         "requires_compatibilities": "FARGATE",
-        "cpu": 256,
-        "memory": 512,
+        "cpu": ${var.agreements_cpu},
+        "memory": ${var.agreements_memory},
         "essential": true,
         "networkMode": "awsvpc",
         "portMappings": [
@@ -99,8 +99,16 @@ resource "aws_ecs_task_definition" "agreements" {
         },
         "environment" : [
           {
-          "name": "ENVIRONMENT",
-          "value": "${var.environment}"
+          "name": "spring.datasource.username",
+          "value": "${var.agreements_db_username}"
+          },
+          {
+          "name": "spring.datasource.password",
+          "value": "${var.agreements_db_password}"
+          },
+          {
+          "name": "spring.datasource.url",
+          "value": "jdbc:postgresql://${var.agreements_db_endpoint}:5432/agreements"
           }
         ]
       }
