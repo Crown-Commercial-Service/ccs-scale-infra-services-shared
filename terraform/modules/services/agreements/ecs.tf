@@ -50,7 +50,7 @@ resource "aws_ecs_service" "agreements" {
   task_definition  = aws_ecs_task_definition.agreements.arn
   launch_type      = "FARGATE"
   platform_version = "LATEST"
-  desired_count    = 1
+  desired_count    = length(var.private_app_subnet_ids)
 
   network_configuration {
     security_groups  = [var.ecs_security_group_id]
