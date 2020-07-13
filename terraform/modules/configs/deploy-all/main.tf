@@ -103,6 +103,7 @@ module "api-deployment" {
 
 module "cloudwatch-alarms" {
   source                  = "../../cw-alarms"
+  environment             = var.environment
   ecs_cluster_name        = module.ecs.ecs_cluster_name
   ecs_service_name        = module.agreements.ecs_service_name
   service_name            = "agreements"
