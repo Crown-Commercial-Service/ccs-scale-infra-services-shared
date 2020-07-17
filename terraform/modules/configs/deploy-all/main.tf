@@ -57,10 +57,10 @@ data "aws_ssm_parameter" "cidr_block_vpc" {
 }
 
 module "ecs" {
-  source          = "../../ecs"
-  vpc_id          = data.aws_ssm_parameter.vpc_id.value
-  environment     = var.environment
-  cidr_block_vpc  = data.aws_ssm_parameter.cidr_block_vpc.value
+  source         = "../../ecs"
+  vpc_id         = data.aws_ssm_parameter.vpc_id.value
+  environment    = var.environment
+  cidr_block_vpc = data.aws_ssm_parameter.cidr_block_vpc.value
 }
 
 module "api" {
@@ -99,4 +99,13 @@ module "api-deployment" {
 
   // Simulate depends_on:
   agreements_api_gateway_integration = module.agreements.agreements_api_gateway_integration
+}
+
+module "cloudwatch-alarms" {
+  source                  = "../../cw-alarms"
+  environment             = var.environment
+  ecs_cluster_name        = module.ecs.ecs_cluster_name
+  ecs_service_name        = module.agreements.ecs_service_name
+  service_name            = "agreements"
+  ecs_expected_task_count = length(split(",", data.aws_ssm_parameter.private_app_subnet_ids.value))
 }
