@@ -54,11 +54,11 @@ variable "agreements_db_endpoint" {
   type = string
 }
 
-variable "agreements_db_username" {
+variable "agreements_db_username_arn" {
   type = string
 }
 
-variable "agreements_db_password" {
+variable "agreements_db_password_arn" {
   type = string
 }
 

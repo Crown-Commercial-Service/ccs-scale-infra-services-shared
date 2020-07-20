@@ -97,15 +97,17 @@ resource "aws_ecs_task_definition" "agreements" {
               "awslogs-stream-prefix": "fargate-agreements"
           }
         },
+        "secrets": [
+            {
+                "name": "spring.datasource.username",
+                "valueFrom": "${var.agreements_db_username_arn}"
+            },
+            {
+                "name": "spring.datasource.password",
+                "valueFrom": "${var.agreements_db_password_arn}"
+            }
+        ],
         "environment" : [
-          {
-          "name": "spring.datasource.username",
-          "value": "${var.agreements_db_username}"
-          },
-          {
-          "name": "spring.datasource.password",
-          "value": "${var.agreements_db_password}"
-          },
           {
           "name": "spring.datasource.url",
           "value": "jdbc:postgresql://${var.agreements_db_endpoint}:5432/agreements"
