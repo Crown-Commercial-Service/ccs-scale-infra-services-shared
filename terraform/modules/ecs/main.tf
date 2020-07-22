@@ -95,7 +95,8 @@ resource "aws_iam_policy" "ecs_task_execution" {
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+        "ssm:GetParameters"
       ],
       "Resource": "*"
     }

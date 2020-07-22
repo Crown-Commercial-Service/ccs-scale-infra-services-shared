@@ -84,8 +84,8 @@ module "agreements" {
   ecs_task_execution_arn       = module.ecs.ecs_task_execution_arn
   ecs_cluster_id               = module.ecs.ecs_cluster_id
   agreements_db_endpoint       = data.aws_ssm_parameter.agreements_db_endpoint.value
-  agreements_db_username       = data.aws_ssm_parameter.agreements_db_username.value
-  agreements_db_password       = data.aws_ssm_parameter.agreements_db_password.value
+  agreements_db_username_arn   = data.aws_ssm_parameter.agreements_db_username.arn
+  agreements_db_password_arn   = data.aws_ssm_parameter.agreements_db_password.arn
   agreements_cpu               = var.agreements_cpu
   agreements_memory            = var.agreements_memory
 }
