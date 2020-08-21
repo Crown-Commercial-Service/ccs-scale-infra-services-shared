@@ -48,9 +48,10 @@ resource "aws_cloudwatch_log_group" "api_gw_execution" {
 }
 
 resource "aws_ssm_parameter" "api_invoke_url" {
-  name  = "${lower(var.environment)}-agreements-service-root-url"
-  type  = "String"
-  value = aws_api_gateway_stage.shared.invoke_url
+  name      = "${lower(var.environment)}-agreements-service-root-url"
+  type      = "String"
+  value     = aws_api_gateway_stage.shared.invoke_url
+  overwrite = true
 }
 
 #########################################################
@@ -119,4 +120,5 @@ resource "aws_ssm_parameter" "fat_buyer_ui_api_key" {
   description = "API Key for FaT Buyer UI component to use to access the Shared API (Agreements Service)"
   type        = "String"
   value       = aws_api_gateway_api_key.fat_buyer_ui.value
+  overwrite   = true
 }
