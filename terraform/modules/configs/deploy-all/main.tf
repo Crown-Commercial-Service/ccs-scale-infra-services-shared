@@ -28,10 +28,6 @@ data "aws_ssm_parameter" "vpc_link_id" {
   name = "${lower(var.environment)}-vpc-link-id"
 }
 
-data "aws_ssm_parameter" "lb_public_arn" {
-  name = "${lower(var.environment)}-lb-public-arn"
-}
-
 data "aws_ssm_parameter" "lb_private_arn" {
   name = "${lower(var.environment)}-lb-private-arn"
 }
