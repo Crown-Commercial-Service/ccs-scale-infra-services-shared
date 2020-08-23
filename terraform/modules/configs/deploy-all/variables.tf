@@ -6,6 +6,11 @@ variable "environment" {
   type = string
 }
 
+variable "ecr_image_id_agreements" {
+  type    = string
+  default = "5c8ea7b-candidate"
+}
+
 variable "agreements_cpu" {
   type    = number
   default = 512

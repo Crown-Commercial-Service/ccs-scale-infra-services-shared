@@ -69,3 +69,7 @@ variable "agreements_cpu" {
 variable "agreements_memory" {
   type = number
 }
+
+variable "ecr_image_id_agreements" {
+  type = string
+}

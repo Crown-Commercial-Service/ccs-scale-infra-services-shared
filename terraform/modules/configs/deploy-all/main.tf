@@ -84,6 +84,7 @@ module "agreements" {
   agreements_db_password_arn   = data.aws_ssm_parameter.agreements_db_password.arn
   agreements_cpu               = var.agreements_cpu
   agreements_memory            = var.agreements_memory
+  ecr_image_id_agreements      = var.ecr_image_id_agreements
 }
 
 module "api-deployment" {
