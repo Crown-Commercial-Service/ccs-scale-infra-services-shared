@@ -58,7 +58,7 @@ resource "aws_ssm_parameter" "api_invoke_url" {
 # Usage Plans
 #########################################################
 resource "aws_api_gateway_usage_plan" "default" {
-  name        = "default-usage-plan"
+  name        = "default-usage-plan-shared"
   description = "Default Usage Plan"
 
   api_stages {
