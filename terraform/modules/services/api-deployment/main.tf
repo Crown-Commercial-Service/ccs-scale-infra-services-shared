@@ -44,7 +44,7 @@ resource "aws_api_gateway_method_settings" "scale" {
 
 resource "aws_cloudwatch_log_group" "api_gw_execution" {
   name              = "API-Gateway-Execution-Logs_${var.scale_rest_api_id}/${lower(var.environment)}-shared"
-  retention_in_days = 7
+  retention_in_days = var.api_gw_log_retention_in_days
 }
 
 resource "aws_ssm_parameter" "api_invoke_url" {

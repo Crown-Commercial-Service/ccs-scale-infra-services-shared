@@ -73,3 +73,7 @@ variable "agreements_memory" {
 variable "ecr_image_id_agreements" {
   type = string
 }
+
+variable "ecs_log_retention_in_days" {
+  type = number
+}

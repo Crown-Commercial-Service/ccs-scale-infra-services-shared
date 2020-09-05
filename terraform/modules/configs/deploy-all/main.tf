@@ -85,14 +85,16 @@ module "agreements" {
   agreements_cpu               = var.agreements_cpu
   agreements_memory            = var.agreements_memory
   ecr_image_id_agreements      = var.ecr_image_id_agreements
+  ecs_log_retention_in_days    = var.ecs_log_retention_in_days
 }
 
 module "api-deployment" {
-  source            = "../../services/api-deployment"
-  environment       = var.environment
-  scale_rest_api_id = module.api.scale_rest_api_id
-  api_rate_limit    = var.api_rate_limit
-  api_burst_limit   = var.api_burst_limit
+  source                       = "../../services/api-deployment"
+  environment                  = var.environment
+  scale_rest_api_id            = module.api.scale_rest_api_id
+  api_rate_limit               = var.api_rate_limit
+  api_burst_limit              = var.api_burst_limit
+  api_gw_log_retention_in_days = var.api_gw_log_retention_in_days
 
   // Simulate depends_on:
   agreements_api_gateway_integration = module.agreements.agreements_api_gateway_integration

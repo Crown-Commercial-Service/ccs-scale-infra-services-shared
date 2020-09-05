@@ -30,3 +30,13 @@ variable "api_burst_limit" {
   type    = number
   default = 50
 }
+
+variable "api_gw_log_retention_in_days" {
+  type    = number
+  default = 7
+}
+
+variable "ecs_log_retention_in_days" {
+  type    = number
+  default = 7
+}
