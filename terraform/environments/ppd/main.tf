@@ -27,9 +27,11 @@ data "aws_ssm_parameter" "aws_account_id" {
 }
 
 module "deploy" {
-  source            = "../../modules/configs/deploy-all"
-  aws_account_id    = data.aws_ssm_parameter.aws_account_id.value
-  environment       = local.environment
-  agreements_cpu    = 1024
-  agreements_memory = 2048
+  source                       = "../../modules/configs/deploy-all"
+  aws_account_id               = data.aws_ssm_parameter.aws_account_id.value
+  environment                  = local.environment
+  agreements_cpu               = 1024
+  agreements_memory            = 2048
+  api_gw_log_retention_in_days = 30
+  ecs_log_retention_in_days    = 30
 }
