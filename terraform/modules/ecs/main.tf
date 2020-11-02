@@ -7,6 +7,16 @@ module "globals" {
   source = "../globals"
 }
 
+data "aws_vpc_endpoint" "ecr" {
+  vpc_id       = var.vpc_id
+  service_name = "com.amazonaws.eu-west-2.ecr.dkr"
+}
+
+data "aws_vpc_endpoint" "s3" {
+  vpc_id       = var.vpc_id
+  service_name = "com.amazonaws.eu-west-2.s3"
+}
+
 resource "aws_ecs_cluster" "scale" {
   name = "SCALE-EU2-${upper(var.environment)}-APP-ECS_Shared"
 
@@ -38,11 +48,15 @@ resource "aws_security_group" "allow_http" {
     cidr_blocks = [var.cidr_block_vpc]
   }
 
+  # Allow traffic to/from ECR and S3 endpoints via VPC link
+  # https://7thzero.com/blog/limiting-outbound-egress-traffic-while-using-aws-fargate-and-ecr
   egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = data.aws_vpc_endpoint.ecr.security_group_ids # SG ID of VPC ECR endpoint
+    prefix_list_ids = [data.aws_vpc_endpoint.s3.prefix_list_id]    # Prefix list ID of S3 endpoint
+    cidr_blocks     = [var.cidr_block_vpc]
   }
 
   tags = {
