@@ -48,6 +48,13 @@ resource "aws_security_group" "allow_http" {
     cidr_blocks = [var.cidr_block_vpc]
   }
 
+  egress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [var.cidr_block_vpc]
+  }
+
   # Allow traffic to/from ECR and S3 endpoints via VPC link
   # https://7thzero.com/blog/limiting-outbound-egress-traffic-while-using-aws-fargate-and-ecr
   egress {
