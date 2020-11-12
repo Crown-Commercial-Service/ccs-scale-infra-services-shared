@@ -15,6 +15,10 @@ resource "aws_api_gateway_deployment" "shared" {
     var.agreements_api_gateway_integration
   ]
 
+  triggers = {
+    redeployment = sha1(var.scale_rest_api_policy_json)
+  }
+
   lifecycle {
     create_before_destroy = true
   }
