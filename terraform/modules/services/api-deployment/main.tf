@@ -91,6 +91,10 @@ resource "aws_api_gateway_api_key" "bat_developers" {
   name = "BaT Developers API Key (Shared)"
 }
 
+resource "aws_api_gateway_api_key" "apig" {
+  name = "Enterprise API Gateway API Key (Shared)"
+}
+
 resource "aws_api_gateway_usage_plan_key" "fat_buyer_ui" {
   key_id        = aws_api_gateway_api_key.fat_buyer_ui.id
   key_type      = "API_KEY"
@@ -111,6 +115,12 @@ resource "aws_api_gateway_usage_plan_key" "fat_developers" {
 
 resource "aws_api_gateway_usage_plan_key" "bat_developers" {
   key_id        = aws_api_gateway_api_key.bat_developers.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.default.id
+}
+
+resource "aws_api_gateway_usage_plan_key" "apig" {
+  key_id        = aws_api_gateway_api_key.apig.id
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.default.id
 }
