@@ -65,9 +65,37 @@ EOF
 }
 
 # API gateway, top-level..
+data "aws_iam_policy_document" "scale" {
+  source_json = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "execute-api:Invoke",
+            "Resource": "*",
+            "Condition" : {
+                "IpAddress": {
+                    "aws:SourceIp": ${jsonencode(var.cidr_blocks_allowed_external_api_gateway)}
+                }
+            }
+        }
+    ]
+}
+EOF
+}
+
+# API gateway, top-level..
 resource "aws_api_gateway_rest_api" "scale" {
   name        = "SCALE:EU2:${upper(var.environment)}:API:Shared"
   description = "SCALE API Gateway"
+
+  endpoint_configuration {
+    types = ["EDGE"]
+  }
+
+  policy = data.aws_iam_policy_document.scale.json
 
   tags = {
     Project     = module.globals.project_name

@@ -52,6 +52,26 @@ data "aws_ssm_parameter" "cidr_block_vpc" {
   name = "${lower(var.environment)}-cidr-block-vpc"
 }
 
+data "aws_ssm_parameter" "cidr_blocks_allowed_external_api_gateway" {
+  name = "${lower(var.environment)}-cidr-blocks-allowed-external-api-gateway"
+}
+
+# Get the public IP values for NAT/GW to add to the API gateway allowed list
+data "aws_ssm_parameter" "nat_eip_ids" {
+  name = "${lower(var.environment)}-eip-ids-nat-gateway"
+}
+
+data "aws_eip" "nat_eips" {
+  for_each = toset(split(",", data.aws_ssm_parameter.nat_eip_ids.value))
+
+  id = each.key
+}
+
+locals {
+  # Normalised CIDR blocks (accounting for 'none' i.e. "-" as value in SSM parameter)
+  cidr_blocks_allowed_external_api_gateway = data.aws_ssm_parameter.cidr_blocks_allowed_external_api_gateway.value != "-" ? split(",", data.aws_ssm_parameter.cidr_blocks_allowed_external_api_gateway.value) : []
+}
+
 module "ecs" {
   source         = "../../ecs"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
@@ -62,6 +82,9 @@ module "ecs" {
 module "api" {
   source      = "../../api"
   environment = var.environment
+
+  # Allow traffic from VPC, NAT and environment specific CIDR ranges (e.g. CCS, CCS web infra etc)
+  cidr_blocks_allowed_external_api_gateway = concat(tolist([data.aws_ssm_parameter.cidr_block_vpc.value]), values(data.aws_eip.nat_eips)[*].public_ip, local.cidr_blocks_allowed_external_api_gateway)
 }
 
 module "agreements" {
