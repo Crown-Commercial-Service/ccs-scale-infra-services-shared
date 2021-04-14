@@ -86,6 +86,7 @@ data "aws_iam_policy_document" "scale" {
 EOF
 }
 
+# API gateway, top-level..
 resource "aws_api_gateway_rest_api" "scale" {
   name        = "SCALE:EU2:${upper(var.environment)}:API:Shared"
   description = "SCALE API Gateway"
