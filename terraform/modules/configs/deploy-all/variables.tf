@@ -8,7 +8,7 @@ variable "environment" {
 
 variable "ecr_image_id_agreements" {
   type    = string
-  default = "45e2345-bat-candidate"
+  default = "bf2037f-bat-candidate"
 }
 
 variable "agreements_cpu" {
