@@ -99,7 +99,7 @@ data "template_file" "error_missing_authentication_token" {
   vars = {
     error_status      = "403"
     error_title       = "Forbidden"
-    error_detail      = "Missing authentication token."
+    error_detail      = "Missing authentication token"
     error_description = "You are not authorized to access this resource"
   }
 }
@@ -111,6 +111,30 @@ resource "aws_api_gateway_gateway_response" "error_missing_authentication_token"
 
   response_templates = {
     "application/json" = data.template_file.error_missing_authentication_token.rendered
+  }
+}
+
+#########################
+# 403 - Invalid signature
+#########################
+
+data "template_file" "error_invalid_signature" {
+  template = "${file("${path.module}/error-response.json.tpl")}"
+  vars = {
+    error_status      = "403"
+    error_title       = "Forbidden"
+    error_detail      = "Invalid signature"
+    error_description = "You are not authorized to access this resource"
+  }
+}
+
+resource "aws_api_gateway_gateway_response" "error_invalid_signature" {
+  rest_api_id   = aws_api_gateway_rest_api.scale.id
+  status_code   = "403"
+  response_type = "INVALID_SIGNATURE"
+
+  response_templates = {
+    "application/json" = data.template_file.error_invalid_signature.rendered
   }
 }
 
@@ -210,9 +234,9 @@ resource "aws_api_gateway_gateway_response" "error_resource_not_found" {
   }
 }
 
-#####
-# 429
-#####
+######################
+# 429 - Quota Exceeded
+######################
 
 data "template_file" "error_quota_exceeded" {
   template = "${file("${path.module}/error-response.json.tpl")}"
@@ -227,7 +251,7 @@ data "template_file" "error_quota_exceeded" {
 resource "aws_api_gateway_gateway_response" "error_quota_exceeded" {
   rest_api_id   = aws_api_gateway_rest_api.scale.id
   status_code   = "429"
-  response_type = "QUOTA_EXCEEDED"
+  response_type = "THROTTLED"
 
   response_templates = {
     "application/json" = data.template_file.error_quota_exceeded.rendered
@@ -235,9 +259,9 @@ resource "aws_api_gateway_gateway_response" "error_quota_exceeded" {
 }
 
 
-#####
-# 504 - Integration Failure
-#####
+###########################
+# 504 - Integration failure
+###########################
 
 data "template_file" "error_integration_faiure" {
   template = "${file("${path.module}/error-response.json.tpl")}"
@@ -259,9 +283,9 @@ resource "aws_api_gateway_gateway_response" "error_integration_faiure" {
   }
 }
 
-#####
+###########################
 # 504 - Integration timeout
-#####
+###########################
 
 data "template_file" "error_integration_timeout" {
   template = "${file("${path.module}/error-response.json.tpl")}"
