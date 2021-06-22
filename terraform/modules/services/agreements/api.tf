@@ -53,3 +53,71 @@ resource "aws_api_gateway_integration" "agreements_proxy" {
     "integration.request.path.proxy" = "method.request.path.proxy"
   }
 }
+
+module "api_errors" {
+  source        = "../../api-errors"
+  rest_api_id   = var.scale_rest_api_id
+}
+
+#resource "aws_api_gateway_method_response" "response_200" {
+#  rest_api_id = var.scale_rest_api_id
+#  resource_id = aws_api_gateway_resource.agreements_proxy.id
+#  http_method = aws_api_gateway_method.agreements_proxy.http_method
+#  status_code = "403"
+#}
+
+
+#resource "aws_api_gateway_integration_response" "MyDemoIntegrationResponse" {
+#  rest_api_id = var.scale_rest_api_id
+#  resource_id = aws_api_gateway_resource.agreements_proxy.id
+#  status_code = aws_api_gateway_method_response.response_200.status_code
+#  http_method = aws_api_gateway_method.agreements_proxy.http_method
+  #response_type = "FORBIDDEN"
+
+#  response_templates = {
+#    "application/json" = "{\"errors\":[{\"status\":\"string\",\"title\":$context.error.messageString,\"detail\":$context.error.messageString}],\"description\":\"You are not authorized to access this resource.\"}"
+#  }
+#}
+
+#####
+# 403
+#####
+
+#resource "aws_api_gateway_gateway_response" "error_missing_authentication_token" {
+#  rest_api_id   = var.scale_rest_api_id
+#  status_code   = "403"
+#  response_type = "MISSING_AUTHENTICATION_TOKEN"
+
+#  response_templates = {
+#    "application/json" = "{\"errors\":[{\"status\":\"string\",\"title\":$context.error.messageString,\"detail\":$context.error.messageString}],\"description\":\"You are not authorized to access this resource.\"}"
+#  }
+#}
+
+
+#####
+# 4XX
+#####
+
+#resource "aws_api_gateway_gateway_response" "error_default_4xx" {
+#  rest_api_id   = var.scale_rest_api_id
+#  response_type = "DEFAULT_4XX"
+#  status_code   = "4XX"
+
+#  response_templates = {
+#    "application/json" = "{\"errors\":[{\"status\":\"4XX\",\"title\":$context.error.messageString,\"detail\":$context.error.messageString}],\"description\":\"You are not authorized to access this resource.\"}"
+#  }
+#}
+
+#####
+# 5XX
+#####
+
+#resource "aws_api_gateway_gateway_response" "error_default_5xx" {
+#  rest_api_id   = var.scale_rest_api_id
+#  response_type = "DEFAULT_5XX"
+#  status_code   = "5XX"
+
+#  response_templates = {
+#    "application/json" = "{\"errors\":[{\"status\":\"5XX\",\"title\":$context.error.messageString,\"detail\":$context.error.messageString}],\"description\":\"You are not authorized to access this resource.\"}"
+#  }
+#}

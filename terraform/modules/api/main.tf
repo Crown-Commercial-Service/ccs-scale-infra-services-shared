@@ -111,3 +111,4 @@ resource "aws_api_gateway_resource" "scale" {
   parent_id   = aws_api_gateway_rest_api.scale.root_resource_id
   path_part   = "scale"
 }
+
