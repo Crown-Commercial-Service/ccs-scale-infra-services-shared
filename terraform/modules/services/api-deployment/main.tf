@@ -15,6 +15,13 @@ resource "aws_api_gateway_deployment" "shared" {
     var.agreements_api_gateway_integration
   ]
 
+  triggers = {
+    api_errors = filesha1("${path.module}/../../api/api-errors.tf")
+    error_response = filesha1("${path.module}/../../api/error-response.json.tpl")
+    rest_api_main = filesha1("${path.module}/../../api/main.tf")
+    api_integration = filesha1("${path.module}/../agreements/api.tf")
+  }
+
   lifecycle {
     create_before_destroy = true
   }
