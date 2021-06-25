@@ -16,6 +16,10 @@ resource "aws_api_gateway_deployment" "shared" {
   ]
 
   triggers = {
+    api_errors = filesha1("${path.module}/../../api/api-errors.tf")
+    error_response = filesha1("${path.module}/../../api/error-response.json.tpl")
+    rest_api_main = filesha1("${path.module}/../../api/main.tf")
+    api_integration = filesha1("${path.module}/../agreements/api.tf")
     redeployment = sha1(var.scale_rest_api_policy_json)
   }
 
