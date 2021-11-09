@@ -77,3 +77,11 @@ variable "ecr_image_id_agreements" {
 variable "ecs_log_retention_in_days" {
   type = number
 }
+
+variable "rollbar_access_token" {
+  type = string
+}
+
+variable "wordpress_root_url" {
+  type = string
+}

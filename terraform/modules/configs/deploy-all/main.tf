@@ -56,6 +56,14 @@ data "aws_ssm_parameter" "cidr_blocks_allowed_external_api_gateway" {
   name = "${lower(var.environment)}-cidr-blocks-allowed-external-api-gateway"
 }
 
+data "aws_ssm_parameter" "rollbar_access_token" {
+  name = "${lower(var.environment)}-rollbar-access-token"
+}
+
+data "aws_ssm_parameter" "wordpress_root_url" {
+  name = "${lower(var.environment)}-wordpress-root-url"
+}
+
 # Get the public IP values for NAT/GW to add to the API gateway allowed list
 data "aws_ssm_parameter" "nat_eip_ids" {
   name = "${lower(var.environment)}-eip-ids-nat-gateway"
@@ -109,6 +117,8 @@ module "agreements" {
   agreements_memory            = var.agreements_memory
   ecr_image_id_agreements      = var.ecr_image_id_agreements
   ecs_log_retention_in_days    = var.ecs_log_retention_in_days
+  rollbar_access_token         = data.aws_ssm_parameter.rollbar_access_token.arn
+  wordpress_root_url           = data.aws_ssm_parameter.wordpress_root_url.arn
 }
 
 module "api-deployment" {
