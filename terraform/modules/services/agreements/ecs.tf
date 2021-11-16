@@ -100,6 +100,14 @@ resource "aws_ecs_task_definition" "agreements" {
             {
                 "name": "spring.datasource.password",
                 "valueFrom": "${var.agreements_db_password_arn}"
+            },
+            {
+                "name": "rollbar.access.token",
+                "valueFrom": "${var.rollbar_access_token}"
+            },
+            {
+                "name": "wordpressURL",
+                "valueFrom": "${var.wordpress_root_url}"
             }
         ],
         "environment" : [
