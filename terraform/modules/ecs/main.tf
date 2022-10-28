@@ -65,6 +65,13 @@ resource "aws_security_group" "allow_http" {
     prefix_list_ids = [data.aws_vpc_endpoint.s3.prefix_list_id]    # Prefix list ID of S3 endpoint
     cidr_blocks     = [var.cidr_block_vpc]
   }
+  
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     Project     = module.globals.project_name
