@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+  variables:
+    SCALE_AGREEMENTS_INFRA_REPO_NAME: "ccs-scale-infra-services-shared"
+    SCALE_AGREEMENTS_INFRA_REPO_URL: "https://github.com/Crown-Commercial-Service/ccs-scale-infra-services-shared.git"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      # install required binary
+      - "curl -s -qL -o /usr/bin/jq https://stedolan.github.io/jq/download/linux64/jq"
+      - "chmod +x /usr/bin/jq"
+      - "cd /usr/bin"
+      - "curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
+      - "unzip -o terraform.zip"
+      # Make custom directory
+      - "mkdir agreements-infra && cd agreements-infra"
+      - "git clone ${SCALE_AGREEMENTS_INFRA_REPO_URL}"
+      - "cd ${SCALE_AGREEMENTS_INFRA_REPO_NAME}"
+  build:
+    commands:
+      - |
+        ecr_image_id_agreements="variable \"ecr_image_id_agreements\" {
+          type    = string
+          default = \"${RELEASE_TAG}\"
+        }"
+        echo "$ecr_image_id_agreements" >> terraform/modules/configs/deploy-all/override.tf
+      - cd terraform/environments/${INFRA_SHARED_ENVIRONMENT}
+      - terraform init -no-color -reconfigure
+      - terraform $TF_ACTION -auto-approve -target=module.deploy.module.agreements.aws_ecs_task_definition.agreements -target=module.deploy.module.agreements.aws_ecs_service.agreements
+
+  post_build:
+    commands:
+      - echo "terraform $TF_ACTION completed on `date`"
+
+artifacts:
+  files:
+    - '**/*'
