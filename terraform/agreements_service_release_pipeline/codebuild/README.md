@@ -2,11 +2,14 @@
 
 ## Overview
 
-This directory contains the configuration for the CodeBuild components for the Agreements Service [CodePipeline](../codepipeline)
+This directory contains the configuration for the CodeBuild components for the Agreements Service [CodePipeline](../codepipeline).
 
 There are two codebuild projects that are configured per environment:
 - [ECR Build Codebuild](./ecr_build_codebuild.tf)
 - [ECS Deploy CodeBuild](./ecs_deploy_codebuild.tf)
+
+The individual CodeBuild jobs will live in the SCALE Management account (hence the [management](./management) subfolder in this directory) - 
+the jobs are configured to then perform the relevant actions against the target environment.
 
 ### ECR Build CodeBuild
 The [ECR Build Codebuild](./ecr_build_codebuild.tf) project is created by referencing the [agreements_service_ecr_build](../modules/agreements_service_ecr_build) 
@@ -29,7 +32,7 @@ be passed to the [ECS Deploy CodeBuild](./ecs_deploy_codebuild.tf) step as appro
 
 _Note: The name of the image (RELEASE_TAG) that is pushed to ECR will follow the naming convention of ${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER} - so
 for example, if you were building an image for the development environment, and this was the 5th invocation of the CodeBuild job,
-the project would create an image named development-release-5_
+the project would create an image named development-release-5._
 
 ### ECS Deploy CodeBuild
 The [ECS Deploy CodeBuild](./ecs_deploy_codebuild.tf) is created by referencing in [agreements_service_ecs_deploy](../modules/agreements_service_ecs_deploy) module.
@@ -44,4 +47,4 @@ to ECS by doing the following:
 and then provides the updated task definition to the ECS Service, forcing a deployment
 
 _Note: Once this job completes, in the background the Target Group for the Agreements Service for the account you are deploying to will be updated
-to point to the newly created ECS task, containing the up to date configuration_
+to point to the newly created ECS task, containing the up to date configuration._
