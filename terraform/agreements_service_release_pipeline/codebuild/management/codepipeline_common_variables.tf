@@ -1,0 +1,1 @@
+../../common/codepipeline_common_variables.tf

@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  variables:
+    # ECR / Docker image
+    ECR_ACCOUNT: "016776319009" # SCALE MGMT
+
+    # ECS service redeployment
+    ECS_ACCOUNT_ROLE: "CCS_SCALE_Build"
+
+  exported-variables:
+    - RELEASE_TAG
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk11
+      docker: 18
+    commands:
+      - export RELEASE_TAG="${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER}"
+      - echo Installation phase...
+      - |
+        if [ -f "${CODEBUILD_SRC_DIR}/pom.xml" ]; then
+          echo Maven project detected, installing required binaries
+          apt-get update -y
+          apt-get install -y maven
+        fi
+  pre_build:
+    commands:
+      - echo Logging in to ECR...
+      - "$(aws ecr get-login --registry-ids ${ECR_ACCOUNT} --no-include-email)"
+  build:
+    commands:
+      - echo Packaging component and building Docker image...
+      - cd $CODEBUILD_SRC_DIR
+      - if [ -f ./pom.xml ]; then mvn -B -q package; fi
+      - docker build -t ${ECR_ACCOUNT}.dkr.ecr.eu-west-2.amazonaws.com/${ECR_REPOSITORY}:${RELEASE_TAG} .
+      - echo "Pushing ${ECR_REPOSITORY}:${RELEASE_TAG} to ECR.."
+      - docker push ${ECR_ACCOUNT}.dkr.ecr.eu-west-2.amazonaws.com/${ECR_REPOSITORY}:${RELEASE_TAG}
+artifacts:
+  files:
+    - 'target/*.jar'
+cache:
+  paths:
+    - '/root/.m2/**/*'
