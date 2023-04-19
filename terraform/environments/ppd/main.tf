@@ -31,6 +31,7 @@ module "deploy" {
   source                       = "../../modules/configs/deploy-all"
   aws_account_id               = data.aws_ssm_parameter.aws_account_id.value
   environment                  = local.environment
+  ecr_image_id_agreements      = var.ecr_image_id_agreements
   agreements_cpu               = 1024
   agreements_memory            = 2048
   api_gw_log_retention_in_days = 30
