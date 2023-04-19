@@ -27,7 +27,7 @@ phases:
           type    = string
           default = \"${RELEASE_TAG}\"
         }"
-        echo "$ecr_image_id_agreements" >> terraform/modules/configs/deploy-all/override.tf
+        echo "$ecr_image_id_agreements" >> terraform/environments/${INFRA_SHARED_ENVIRONMENT}/override.tf
       - cd terraform/environments/${INFRA_SHARED_ENVIRONMENT}
       - terraform init -no-color -reconfigure
       - terraform $TF_ACTION -auto-approve -target=module.deploy.module.agreements.aws_ecs_task_definition.agreements -target=module.deploy.module.agreements.aws_ecs_service.agreements
