@@ -15,7 +15,7 @@ resource "aws_codepipeline" "agreements_service_codepipeline" {
         Branch               = var.default_branch
         OAuthToken           = sensitive(var.github_oauth_token)
         Owner                = "Crown-Commercial-Service"
-        PollForSourceChanges = false
+        PollForSourceChanges = true
         Repo                 = var.github_repository_name
       }
 
