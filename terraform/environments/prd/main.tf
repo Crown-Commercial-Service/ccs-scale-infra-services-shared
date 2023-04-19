@@ -35,4 +35,5 @@ module "deploy" {
   agreements_memory            = 2048
   api_gw_log_retention_in_days = 30
   ecs_log_retention_in_days    = 30
+  ecr_image_id_agreements      = var.ecr_image_id_agreements
 }
