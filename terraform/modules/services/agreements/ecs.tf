@@ -108,6 +108,10 @@ resource "aws_ecs_task_definition" "agreements" {
             {
                 "name": "wordpressURL",
                 "valueFrom": "${var.wordpress_root_url}"
+            },
+            {
+                "name": "environment",
+                "valueFrom": "${var.environment}"
             }
         ],
         "environment" : [
