@@ -110,8 +110,8 @@ resource "aws_ecs_task_definition" "agreements" {
                 "valueFrom": "${var.wordpress_root_url}"
             },
             {
-                "name": "environment",
-                "valueFrom": "${var.environment}"
+                "name": "rollbar.env",
+                "valueFrom": "${var.rollbar_env}"
             }
         ],
         "environment" : [

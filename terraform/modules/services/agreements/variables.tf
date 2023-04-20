@@ -82,6 +82,10 @@ variable "rollbar_access_token" {
   type = string
 }
 
+variable "rollbar_env" {
+  type = string
+}
+
 variable "wordpress_root_url" {
   type = string
 }

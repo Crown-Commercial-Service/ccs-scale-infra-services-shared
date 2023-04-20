@@ -60,6 +60,10 @@ data "aws_ssm_parameter" "rollbar_access_token" {
   name = "${lower(var.environment)}-agreements-rollbar-access-token"
 }
 
+data "aws_ssm_parameter" "rollbar_env" {
+  name = "${lower(var.environment)}-agreements-rollbar-env"
+}
+
 data "aws_ssm_parameter" "wordpress_root_url" {
   name = "${lower(var.environment)}-wordpress-root-url"
 }
@@ -118,6 +122,7 @@ module "agreements" {
   ecr_image_id_agreements      = var.ecr_image_id_agreements
   ecs_log_retention_in_days    = var.ecs_log_retention_in_days
   rollbar_access_token         = data.aws_ssm_parameter.rollbar_access_token.arn
+  rollbar_env                  = data.aws_ssm_parameter.rollbar_env.value
   wordpress_root_url           = data.aws_ssm_parameter.wordpress_root_url.arn
 }
 
