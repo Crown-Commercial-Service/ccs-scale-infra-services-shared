@@ -113,7 +113,7 @@ resource "aws_ecs_task_definition" "agreements" {
         "environment" : [
           {
           "name": "spring.datasource.url",
-          "value": "jdbc:postgresql://${var.agreements_db_endpoint}:5432/agreements?connectTimeout=2&cancelSignalTimeout=2&socketTimeout=60&targetServerType=preferSlave"
+          "value": "jdbc:postgresql://${var.agreements_db_endpoint}:5432/agreements?connectTimeout=2&cancelSignalTimeout=2&socketTimeout=60&targetServerType=preferSlave&currentSchema=ccs_agreements"
           }
         ]
       }
