@@ -57,7 +57,7 @@ data "aws_ssm_parameter" "cidr_blocks_allowed_external_api_gateway" {
 }
 
 data "aws_ssm_parameter" "rollbar_access_token" {
-  name = "${lower(var.environment)}-rollbar-access-token"
+  name = "${lower(var.environment)}-agreements-rollbar-access-token"
 }
 
 data "aws_ssm_parameter" "wordpress_root_url" {
