@@ -122,7 +122,7 @@ module "agreements" {
   ecr_image_id_agreements      = var.ecr_image_id_agreements
   ecs_log_retention_in_days    = var.ecs_log_retention_in_days
   rollbar_access_token         = data.aws_ssm_parameter.rollbar_access_token.arn
-  rollbar_env                  = data.aws_ssm_parameter.rollbar_env.value
+  rollbar_env                  = data.aws_ssm_parameter.rollbar_env.arn
   wordpress_root_url           = data.aws_ssm_parameter.wordpress_root_url.arn
 }
 
