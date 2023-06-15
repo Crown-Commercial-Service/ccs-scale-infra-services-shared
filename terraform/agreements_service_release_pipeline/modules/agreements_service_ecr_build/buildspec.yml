@@ -14,7 +14,7 @@ env:
 phases:
   install:
     runtime-versions:
-      java: openjdk17
+      java: corretto17
       docker: 18
     commands:
       - export RELEASE_TAG="${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER}"
