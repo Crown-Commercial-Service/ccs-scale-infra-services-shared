@@ -33,7 +33,7 @@ variable "environment_compute_type" {
 
 variable "environment_image" {
   type    = string
-  default = "aws/codebuild/standard:3.0"
+  default = "aws/codebuild/standard:6.0"
 }
 
 variable "environment_type" {
