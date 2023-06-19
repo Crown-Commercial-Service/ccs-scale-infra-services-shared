@@ -33,12 +33,12 @@ variable "environment_compute_type" {
 
 variable "environment_image" {
   type    = string
-  default = "aws/codebuild/standard:6.0"
+  default = "aws/codebuild/amazonlinux2-aarch64-standard:3.0"
 }
 
 variable "environment_type" {
   type    = string
-  default = "LINUX_CONTAINER"
+  default = "ARM_CONTAINER"
 }
 
 variable "github_repository_url" {
