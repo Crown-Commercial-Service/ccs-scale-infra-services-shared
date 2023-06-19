@@ -28,7 +28,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to ECR...
-      - "$(aws ecr get-login --registry-ids ${ECR_ACCOUNT} --no-include-email)"
+      - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${ECR_ACCOUNT}.dkr.ecr.eu-west-2.amazonaws.com
   build:
     commands:
       - echo Packaging component and building Docker image...
