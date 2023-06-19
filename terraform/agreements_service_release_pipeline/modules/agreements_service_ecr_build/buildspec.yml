@@ -15,7 +15,7 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-      docker: 18
+      docker: 23
     commands:
       - export RELEASE_TAG="${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER}"
       - echo Installation phase...
