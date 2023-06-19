@@ -22,8 +22,8 @@ phases:
       - |
         if [ -f "${CODEBUILD_SRC_DIR}/pom.xml" ]; then
           echo Maven project detected, installing required binaries
-          apt-get update -y
-          apt-get install -y maven
+          yum update -y
+          yum install -y maven
         fi
   pre_build:
     commands:
