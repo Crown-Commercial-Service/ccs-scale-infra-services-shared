@@ -15,15 +15,14 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-      docker: 23
     commands:
       - export RELEASE_TAG="${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER}"
       - echo Installation phase...
       - |
         if [ -f "${CODEBUILD_SRC_DIR}/pom.xml" ]; then
           echo Maven project detected, installing required binaries
-          yum update -y
-          yum install -y maven
+          apt-get update -y
+          apt-get install -y maven
         fi
   pre_build:
     commands:
