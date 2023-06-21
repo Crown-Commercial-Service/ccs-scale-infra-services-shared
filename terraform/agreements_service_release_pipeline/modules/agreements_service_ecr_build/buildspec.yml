@@ -14,7 +14,8 @@ env:
 phases:
   install:
     runtime-versions:
-      java: corretto17
+      java: openjdk11
+      docker: 18
     commands:
       - export RELEASE_TAG="${ENVIRONMENT}-release-${CODEBUILD_BUILD_NUMBER}"
       - echo Installation phase...
@@ -27,7 +28,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to ECR...
-      - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${ECR_ACCOUNT}.dkr.ecr.eu-west-2.amazonaws.com
+      - "$(aws ecr get-login --registry-ids ${ECR_ACCOUNT} --no-include-email)"
   build:
     commands:
       - echo Packaging component and building Docker image...
