@@ -92,8 +92,9 @@ module "ecs" {
 }
 
 module "api" {
-  source      = "../../api"
-  environment = var.environment
+  source                = "../../api"
+  environment           = var.environment
+  cognito_user_pool_arn = var.cognito_user_pool_arn
 
   # Allow traffic from VPC, NAT and environment specific CIDR ranges (e.g. CCS, CCS web infra etc)
   cidr_blocks_allowed_external_api_gateway = concat(tolist([data.aws_ssm_parameter.cidr_block_vpc.value]), values(data.aws_eip.nat_eips)[*].public_ip, local.cidr_blocks_allowed_external_api_gateway)

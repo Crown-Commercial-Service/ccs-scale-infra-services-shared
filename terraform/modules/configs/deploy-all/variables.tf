@@ -7,7 +7,7 @@ variable "environment" {
 }
 
 variable "ecr_image_id_agreements" {
-  type    = string
+  type = string
 }
 
 variable "agreements_cpu" {
@@ -38,4 +38,8 @@ variable "api_gw_log_retention_in_days" {
 variable "ecs_log_retention_in_days" {
   type    = number
   default = 7
+}
+
+variable "cognito_user_pool_arn" {
+  type = string
 }
