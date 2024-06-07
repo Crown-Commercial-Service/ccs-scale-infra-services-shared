@@ -3,5 +3,5 @@ variable "environment" {
 }
 
 variable "cidr_blocks_allowed_external_api_gateway" {
-  type = list
+  type = list(any)
 }

@@ -7,6 +7,12 @@
 module "globals" {
   source = "../globals"
 }
+
+# Data source for NLB
+data "aws_lb" "scale_lb" {
+  name = "SCALE-EU2-TST-NLB-INTERNAL"
+}
+
 # API Gateway account level settings
 resource "aws_api_gateway_account" "this" {
   cloudwatch_role_arn = aws_iam_role.api_gw_cloudwatch_logs_role.arn
@@ -103,6 +109,31 @@ resource "aws_api_gateway_rest_api" "scale" {
     AppType     = "APIGATEWAY"
   }
 }
+
+resource "aws_api_gateway_method" "scale_get_method" {
+  rest_api_id      = aws_api_gateway_rest_api.scale.id
+  resource_id      = aws_api_gateway_resource.scale.id
+  http_method      = "GET"
+  authorization    = "NONE"
+  api_key_required = true
+
+}
+
+resource "aws_api_gateway_vpc_link" "scale_vpc_link" {
+  name        = "SCALE:EU2:ENV:VPC:Link"
+  target_arns = [data.aws_lb.scale_lb.arn]
+}
+
+resource "aws_api_gateway_integration" "scale_get_method_integration" {
+  rest_api_id     = aws_api_gateway_rest_api.scale.id
+  resource_id     = aws_api_gateway_resource.scale.id
+  http_method     = aws_api_gateway_method.scale_get_method.http_method
+  type            = "HTTP"
+  connection_type = "VPC_LINK"
+  connection_id   = aws_api_gateway_vpc_link.scale_vpc_link.id
+
+}
+
 
 # Default Access Denied gateway response exposes info about the API so replace it.
 resource "aws_api_gateway_gateway_response" "access_denied" {
