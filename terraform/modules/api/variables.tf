@@ -5,3 +5,7 @@ variable "environment" {
 variable "cidr_blocks_allowed_external_api_gateway" {
   type = list(any)
 }
+
+variable "cognito_user_pool_arn" {
+  type = string
+}

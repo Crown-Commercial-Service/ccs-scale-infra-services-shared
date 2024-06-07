@@ -119,6 +119,35 @@ resource "aws_api_gateway_method" "scale_get_method" {
 
 }
 
+resource "aws_api_gateway_method" "scale_put_method" {
+  authorizer_id        = aws_api_gateway_authorizer.scale_authorizer.id
+  authorization_scopes = ["agreements/write"]
+  rest_api_id          = aws_api_gateway_rest_api.scale.id
+  resource_id          = aws_api_gateway_resource.scale.id
+  http_method          = "PUT"
+  authorization        = "COGNITO_USER_POOLS"
+  api_key_required     = false
+
+}
+
+resource "aws_api_gateway_method" "scale_post_method" {
+  authorizer_id        = aws_api_gateway_authorizer.scale_authorizer.id
+  authorization_scopes = ["agreements/write"]
+  rest_api_id          = aws_api_gateway_rest_api.scale.id
+  resource_id          = aws_api_gateway_resource.scale.id
+  http_method          = "POST"
+  authorization        = "COGNITO_USER_POOLS"
+  api_key_required     = false
+
+}
+
+resource "aws_api_gateway_authorizer" "scale_authorizer" {
+  name          = "agreements-service-authorizer"
+  type          = "COGNITO_USER_POOLS"
+  rest_api_id   = aws_api_gateway_rest_api.scale.id
+  provider_arns = [var.cognito_user_pool_arn]
+}
+
 resource "aws_api_gateway_vpc_link" "scale_vpc_link" {
   name        = "SCALE:EU2:ENV:VPC:Link"
   target_arns = [data.aws_lb.scale_lb.arn]
