@@ -18,8 +18,7 @@ resource "aws_api_gateway_resource" "agreements_proxy" {
 }
 
 module "agreements_cors" {
-  source          = "squidfunk/api-gateway-enable-cors/aws"
-  version         = "0.3.1"
+  source          = "../../cors"
   api_id          = var.scale_rest_api_id
   api_resource_id = aws_api_gateway_resource.agreements_proxy.id
   allow_headers   = module.globals.allowed_cors_headers
